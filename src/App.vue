@@ -1,13 +1,11 @@
 <template>
   <div id="app">
     <b-navbar class="mb-4" type="dark" variant="primary">
-      <b-navbar-brand href="#">FORMS.PARUSALTAI.RU</b-navbar-brand>
+      <b-navbar-brand >FORMS.PARUSALTAI.RU</b-navbar-brand>
 
-<!--      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>-->
       <b-collapse id="nav-collapse" is-nav>
-        <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
-          <b-form-checkbox button-variant="outline-secondary" switch size="lg"></b-form-checkbox>
+        <b-navbar-nav class="ml-auto" >
+          <b-form-checkbox  button-variant="outline-secondary" switch size="lg"></b-form-checkbox>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -16,6 +14,8 @@
       <b-row>
         <b-col cols="12">
           <SimpleForm></SimpleForm>
+<!--          <InputDropdown></InputDropdown>-->
+<!--          <InputVueTheMask></InputVueTheMask>-->
         </b-col>
       </b-row>
     </b-container>
@@ -24,11 +24,15 @@
 
 <script>
   import SimpleForm from "@/components/SimpleForm";
+  // import InputDropdown from "./components/InputDropdown";
+  // import InputVueTheMask from "./components/InputVueTheMask";
 
   export default {
     name: 'App',
     components: {
-      SimpleForm
+      SimpleForm,
+      // InputDropdown,
+      // InputVueTheMask
     }
   }
 </script>
@@ -41,11 +45,9 @@
     /*text-align: center;*/
     color: #2c3e50;
   }
-
   .justify-content-md-center {
     max-width: 576px !important;
   }
-
   .custom-control-input:checked ~ .custom-control-label::before {
     background-color: #28a745 !important;
   }

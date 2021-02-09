@@ -1,82 +1,274 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+    <b-form @submit="onSubmit">
+      <!--  Phone  -->
       <b-form-group
-          id="input-group-1"
-          label="Email address:"
-          label-for="input-1"
-          description="We'll never share your email with anyone else."
+          id="phone_group"
+          label-for="phone"
+          label-class="font-weight-bold"
       >
+        <template v-slot:label>
+          Номер телефона
+          <span :style="{fontSize: '18px'}" class="text-danger">
+            <strong>*</strong>
+          </span>
+        </template>
         <b-input-group>
-          <template #append>
+          <!-- Show while data load -->
+          <template #append v-if="verify.isVerifying">
             <b-input-group-text>
               <b-icon icon="arrow-repeat" animation="spin"></b-icon>
             </b-input-group-text>
           </template>
+
           <b-form-input
-              id="input-1"
-              v-model="form.email"
-              type="email"
-              placeholder="Enter email"
+              id="phone"
+              @input="onInputPhone"
+              :value="form.phone"
+              type="text"
               autocomplete="off"
+              placeholder="+7 (___) ___ ____"
+              v-mask="'+7 (###) ### ####'"
+              :state="success"
           ></b-form-input>
         </b-input-group>
-
       </b-form-group>
 
-      <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
-        <b-form-input
-            id="input-2"
-            v-model="form.name"
-            placeholder="Enter name"
-            required
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="input-group-3" label="Food:" label-for="input-3">
+      <!--  Company  -->
+      <b-form-group
+          v-if="isVerified"
+          id="company_group"
+          label-for="company"
+          label-class="font-weight-bold"
+      >
+        <template v-slot:label>
+          Организация:
+          <span :style="{fontSize: '18px'}" class="text-danger">
+            <strong>*</strong>
+          </span>
+        </template>
         <b-form-select
-            id="input-3"
-            v-model="form.food"
-            :options="foods"
-            required
+            id="company"
+            v-model="form.company"
+            :options="companies"
+            :state="success"
         ></b-form-select>
       </b-form-group>
 
-      <b-form-group id="input-group-4" v-slot="{ ariaDescribedby }">
-        <b-form-checkbox-group
-            v-model="form.checked"
-            id="checkboxes-4"
-            :aria-describedby="ariaDescribedby"
-        >
-          <b-form-checkbox value="me">Check me out</b-form-checkbox>
-          <b-form-checkbox value="that">Check that out</b-form-checkbox>
-        </b-form-checkbox-group>
+      <!-- Name -->
+      <b-form-group
+          id="name_group"
+          label="Имя:"
+          label-for="name"
+          label-class="font-weight-bold"
+      >
+        <template v-slot:label>
+          Имя:
+          <span :style="{fontSize: '18px'}" class="text-danger">
+            <strong>*</strong>
+          </span>
+        </template>
+        <b-input-group>
+          <!-- Show if items more > 1 -->
+          <template #append v-if="names.length > 1">
+            <b-dropdown ref="dropdown" variant="outline-success">
+              <b-dropdown-item
+                  v-for="(item, i) in names"
+                  :key="`${item}-${i}`"
+                  :data-value="item"
+                  @click="form.name = $event.target.innerText"
+              >
+                {{item}}
+              </b-dropdown-item>
+            </b-dropdown>
+          </template>
+          <b-form-input id="name" :state="success" v-model.trim="form.name" :maxlength="nameMaxLen"
+                        autocomplete="off"></b-form-input>
+        </b-input-group>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <!-- Текст обращения -->
+      <b-form-group
+          label-for="textarea-formatter"
+          label-class="font-weight-bold"
+      >
+        <template v-slot:label>
+          Текст обращения
+          <span :style="{fontSize: '18px'}" class="text-danger">
+            <strong>*</strong>
+          </span>
+        </template>
+        <template v-slot:description>
+          <span :style="{float: 'right'}">{{form.message.length}} / {{messageMaxLen}}</span>
+        </template>
+        <b-form-textarea
+            id="textarea-rows"
+            class="mb-1"
+            rows="6"
+            v-model.trim="form.message"
+            :maxlength="messageMaxLen"
+        ></b-form-textarea>
+      </b-form-group>
+
+      <b-button type="submit" variant="primary" :disabled="!formValid">Отправить</b-button>
     </b-form>
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
+      <pre class="m-0">{{ verify }}</pre>
     </b-card>
   </div>
 </template>
 
 <script>
+  import {mask} from 'vue-the-mask';
+
   export default {
+    created() {
+      this.form.company = this.companies[0] ?? '';
+    },
+    directives: {mask},
     data() {
       return {
+        /***
+         *  Данные для отправки на сервер
+         * */
         form: {
-          email: '',
+          phone: '',
+          company: '',
           name: '',
-          food: null,
-          checked: []
+          message: ''
         },
-        foods: [{text: 'Select One', value: null}, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
-        show: true
+        /***
+         *  Поля для верификации
+         * */
+        verify: {
+          data: [],
+          phoneFilled: false,
+          previousPhone: '',
+          controller: null,
+          isVerifying: false
+        },
+        /***
+         *  Используется для присваивания классов полям
+         * */
+        success: null,
+        nameMaxLen: 60,
+        messageMaxLen: 1000
+      }
+    },
+    computed: {
+      formValid() {
+        return this.verify.phoneFilled
+          && this.form.name
+          && this.form.message;
+      },
+      isVerified() {
+        return !!this.verifyData.length;
+      },
+      companies() {
+        return this.verifyData.map(v => v.title);
+      },
+      names() {
+        /***
+         *  Убираем дубриующиеся имена
+         * */
+        return [...new Set(this.verifyData.map(v => v.name))];
+      },
+      verifyData() {
+        return this.verify.data;
       }
     },
     methods: {
+      onInputPhone(v) {
+        this.form.phone = v;
+        /***
+         *
+         *   Последний символ в запросе должен быть цифрой
+         * */
+        if (v.length === 17 && /[0-9]/.test(v[v.length - 1])) {
+
+
+          /***
+           *  Если телефон заполнен и предыдущее значение не равно текущему
+           * */
+          if (!this.verify.phoneFilled || this.verify.previousPhone !== v) {
+            this.verify.previousPhone = v;
+
+            console.log(`v: ${v}, previousPhone: ${this.verify.previousPhone}`);
+
+            this.verifyPhone(v);
+          }
+
+          this.verify.phoneFilled = true;
+        } else if (v.length < 17) {
+
+          this.verify.phoneFilled = false;
+          this.success = null;
+        }
+
+        // console.log(v, v.length, this.verify.phoneFilled);
+      },
+      async verifyPhone(phone) {
+        /***
+         *  Cancel previous request
+         * */
+        if (this.verify.controller) {
+          this.verify.controller.abort();
+        }
+
+        /***
+         *  Send request to server
+         */
+        console.log('send request to server...');
+
+        this.verify.controller = new AbortController();
+        const {signal} = this.verify.controller;
+
+        try {
+          /***
+           *  Before fetch
+           * */
+          this.verify.isVerifying = true;
+          this.success = null;
+
+          const response = await fetch(
+            `http://192.168.1.132:8185/api/verify-phone?phone=${encodeURIComponent(phone)}`,
+            {signal}
+          );
+
+          const data = await response.json();
+
+          if (data.length) {
+            this.verify.data = data;
+
+            /***
+             *  Присваиваем значение организации, первым значением из списка
+             * */
+            this.form.company = this.companies[0];
+            this.form.name = this.names[0];
+            this.success = true;
+          } else {
+
+            this.verify.data = [];
+            this.success = null;
+          }
+
+        } catch (e) {
+          if (e.name === 'AbortError') {
+            console.log('Request cancelled...');
+          } else {
+            // this.showSnackbarError();
+          }
+
+          // console.log('Ошибка соединения с сервером');
+
+        } finally {
+          console.log('finally');
+
+          this.verify.isVerifying = false;
+        }
+      },
+
       onSubmit(event) {
         event.preventDefault()
         alert(JSON.stringify(this.form))
@@ -84,7 +276,7 @@
       onReset(event) {
         event.preventDefault()
         // Reset our form values
-        this.form.email = ''
+        this.form.phone = ''
         this.form.name = ''
         this.form.food = null
         this.form.checked = []
@@ -93,7 +285,19 @@
         this.$nextTick(() => {
           this.show = true
         })
-      }
+      },
+
     }
   }
 </script>
+
+<style scoped>
+  /*.form-control:disabled, .form-control[readonly] {*/
+  /*#company {*/
+  /*  background-color: white !important;*/
+  /*}*/
+  .form-text .text-muted {
+    text-align: right !important;
+  }
+
+</style>
