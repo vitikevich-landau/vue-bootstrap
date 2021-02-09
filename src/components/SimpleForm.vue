@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit="onSubmit">
+    <b-form>
       <!--  Phone  -->
       <b-form-group
           id="phone_group"
@@ -33,7 +33,6 @@
           ></b-form-input>
         </b-input-group>
       </b-form-group>
-
       <!--  Company  -->
       <b-form-group
           v-if="isVerified"
@@ -43,9 +42,6 @@
       >
         <template v-slot:label>
           Организация:
-          <span :style="{fontSize: '18px'}" class="text-danger">
-            <strong>*</strong>
-          </span>
         </template>
         <b-form-select
             id="company"
@@ -110,12 +106,13 @@
         ></b-form-textarea>
       </b-form-group>
 
-      <b-button type="submit" variant="primary" :disabled="!formValid">Отправить</b-button>
+      <b-button type="button" @click="makeToast('success')" variant="primary" :disabled="!formValid">Отправить</b-button>
     </b-form>
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-      <pre class="m-0">{{ verify }}</pre>
-    </b-card>
+
+<!--    <b-card class="mt-3" header="Form Data Result">-->
+<!--      <pre class="m-0">{{ form }}</pre>-->
+<!--      <pre class="m-0">{{ verify }}</pre>-->
+<!--    </b-card>-->
   </div>
 </template>
 
@@ -179,6 +176,17 @@
       }
     },
     methods: {
+      makeToast(variant = null) {
+        this.$bvToast.toast(`${this.form.phone}, ${this.form.name}, ${this.form.company}, ${this.form.message}`, {
+          toaster: 'b-toaster-top-center',
+          title: `Ваше обращение отправлено...`,
+          variant: variant,
+          solid: true,
+          autoHideDelay: 12000
+        });
+
+        this.resetForm();
+      },
       onInputPhone(v) {
         this.form.phone = v;
         /***
@@ -273,18 +281,18 @@
         event.preventDefault()
         alert(JSON.stringify(this.form))
       },
-      onReset(event) {
-        event.preventDefault()
-        // Reset our form values
-        this.form.phone = ''
-        this.form.name = ''
-        this.form.food = null
-        this.form.checked = []
+      resetForm() {
+        this.success = null;
+
+        this.form.phone = '';
+        this.form.company = '';
+        this.form.name = '';
+        this.form.message = '';
+
         // Trick to reset/clear native browser form validation state
-        this.show = false
-        this.$nextTick(() => {
-          this.show = true
-        })
+        // this.$nextTick(() => {
+        //   this.show = true
+        // });
       },
 
     }
