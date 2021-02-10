@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit="onSubmit">
+    <b-form @submit.prevent="onSubmit">
       <!--  Phone  -->
       <b-form-group
           id="phone_group"
@@ -17,7 +17,7 @@
           <!-- Show while data load -->
           <template #append v-if="verify.verifying">
             <b-input-group-text>
-              <b-icon icon="arrow-repeat" animation="spin"></b-icon>
+              <b-icon-arrow-repeat animation="spin"></b-icon-arrow-repeat>
             </b-input-group-text>
           </template>
 
@@ -136,8 +136,12 @@
 <script>
   import {mask} from 'vue-the-mask';
   import delay from "../lib/delay";
+  import {BIconArrowRepeat} from 'bootstrap-vue';
 
   export default {
+    components: {
+      BIconArrowRepeat
+    },
     directives: {mask},
     data() {
       return {
@@ -323,9 +327,7 @@
           this.verify.verifying = false;
         }
       },
-      async onSubmit(event) {
-        event.preventDefault();
-
+      async onSubmit() {
         /***
          *  before send
          * */
