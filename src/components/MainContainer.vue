@@ -2,6 +2,8 @@
   <b-container class="justify-content-md-center">
     <b-row>
       <b-col cols="12">
+        <h2>Задать вопрос</h2>
+        <hr>
         <SimpleForm></SimpleForm>
       </b-col>
       <svg id="clouds" alt="Gray Clouds Background" xmlns="http://www.w3.org/2000/svg" width="2611.084"
@@ -44,20 +46,6 @@
     svg#clouds {
       left: -230px;
       bottom: -190px;
-    }
-
-    .card-container > *:not(.circle-link),
-    .terminal {
-      width: 100%;
-    }
-
-    .card:not(.highlight-card) {
-      height: 16px;
-      margin: 8px 0;
-    }
-
-    .card.highlight-card span {
-      margin-left: 72px;
     }
 
     svg#rocket-smoke {
