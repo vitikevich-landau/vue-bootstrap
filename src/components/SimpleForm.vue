@@ -104,6 +104,7 @@
             v-model.trim="form.message"
             :maxlength="messageMaxLen"
             :disabled="sending"
+            :state="success"
         ></b-form-textarea>
       </b-form-group>
 
@@ -335,7 +336,7 @@
           /***
            *  Send post request to server
            * */
-          const data = await delay();
+          const {data} = await delay();
 
           /***
            *  After send
@@ -349,6 +350,8 @@
           this.showSuccessToast();
 
           this.resetForm();
+
+          this.success = null;
         } catch (e) {
 
           /***
@@ -356,6 +359,8 @@
            * */
           this.$bvToast.hide();
           this.showErrorToast();
+
+          this.success = false;
         } finally {
 
           this.sending = false;
