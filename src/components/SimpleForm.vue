@@ -4,8 +4,8 @@
       <!--  Phone  -->
       <b-form-group
           id="phone_group"
-          label-for="phone"
           label-class="font-weight-bold"
+          :disabled="sending"
       >
         <template v-slot:label>
           Номер телефона
@@ -15,7 +15,7 @@
         </template>
         <b-input-group>
           <!-- Show while data load -->
-          <template #append v-if="verify.isVerifying">
+          <template #append v-if="verify.verifying">
             <b-input-group-text>
               <b-icon icon="arrow-repeat" animation="spin"></b-icon>
             </b-input-group-text>
@@ -37,7 +37,7 @@
       <b-form-group
           v-if="isVerified"
           id="company_group"
-          label-for="company"
+          :disabled="sending"
           label-class="font-weight-bold"
       >
         <template v-slot:label>
@@ -55,7 +55,7 @@
       <b-form-group
           id="name_group"
           label="Имя:"
-          label-for="name"
+          :disabled="sending"
           label-class="font-weight-bold"
       >
         <template v-slot:label>
@@ -103,21 +103,38 @@
             rows="6"
             v-model.trim="form.message"
             :maxlength="messageMaxLen"
+            :disabled="sending"
         ></b-form-textarea>
       </b-form-group>
 
-      <b-button type="submit" variant="primary" :disabled="!formValid">Отправить</b-button>
+      <b-button
+          v-if="!sending"
+          type="submit"
+          variant="primary"
+          :disabled="!formValid"
+      >
+        Отправить
+      </b-button>
+      <b-button
+          v-else
+          variant="primary"
+          type="button"
+          disabled>
+        <b-spinner small type="grow"></b-spinner>
+        Отправка...
+      </b-button>
     </b-form>
 
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-      <pre class="m-0">{{ verify }}</pre>
-    </b-card>
+    <!--    <b-card class="mt-3" header="Form Data Result">-->
+    <!--      <pre class="m-0">{{ form }}</pre>-->
+    <!--      <pre class="m-0">{{ verify }}</pre>-->
+    <!--    </b-card>-->
   </div>
 </template>
 
 <script>
   import {mask} from 'vue-the-mask';
+  import delay from "../lib/delay";
 
   export default {
     directives: {mask},
@@ -136,6 +153,9 @@
          *  Поля для верификации
          * */
         verify: {
+          /***
+           *  Данные с сервера, после верификации
+           * */
           data: [],
           phoneFilled: false,
           previousPhone: '',
@@ -144,14 +164,19 @@
            * */
           controller: null,
           /***
-           *  Show preloader
+           *  Show input preloader
            * */
-          isVerifying: false
+          verifying: false,
         },
+        /***
+         *  Show button preloader
+         * */
+        sending: false,
         /***
          *  Используется для присваивания классов полям
          * */
         success: null,
+
         nameMaxLen: 60,
         messageMaxLen: 1000,
       }
@@ -191,7 +216,7 @@
           title,
           variant: variant,
           solid: true,
-          autoHideDelay: 20000
+          autoHideDelay: 17000
         });
       },
       onInputPhone(v) {
@@ -243,7 +268,7 @@
           /***
            *  Before fetch
            * */
-          this.verify.isVerifying = true;
+          this.verify.verifying = true;
           this.success = null;
 
           const response = await fetch(
@@ -266,7 +291,7 @@
             this.verify.data = data;
 
             /***
-             *  Присваиваем значение организации, первым значением из списка
+             *  Присваиваем значение имя/организации, первым значением из списка
              * */
             this.form.company = this.companies[0];
             this.form.name = this.names[0];
@@ -291,21 +316,50 @@
             this.success = false
           }
 
-          // console.log('Ошибка соединения с сервером');
-
         } finally {
           console.log('finally');
 
-          this.verify.isVerifying = false;
+          this.verify.verifying = false;
         }
       },
-
-      onSubmit(event) {
+      async onSubmit(event) {
         event.preventDefault();
-        // alert(JSON.stringify(this.form));
 
-        this.showSuccessToast();
-        this.resetForm();
+        /***
+         *  before send
+         * */
+        this.sending = true;
+
+        try {
+
+          /***
+           *  Send post request to server
+           * */
+          const data = await delay();
+
+          /***
+           *  After send
+           * */
+          console.log(data);
+
+          /***
+           *  Зыакрываем, если были открыты
+           * */
+          this.$bvToast.hide();
+          this.showSuccessToast();
+
+          this.resetForm();
+        } catch (e) {
+
+          /***
+           *  Зыакрываем, если были открыты
+           * */
+          this.$bvToast.hide();
+          this.showErrorToast();
+        } finally {
+
+          this.sending = false;
+        }
       },
       resetForm() {
         /***
