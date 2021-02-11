@@ -140,7 +140,7 @@
           /***
            *  Зыакрываем, если были открыты
            * */
-          this.$bvToast.hide();
+          this.$emit('hideToasts');
 
           if(this.verified) {
             this.setSuccess(true);
@@ -156,7 +156,7 @@
             /***
              *  Зыакрываем, если были открыты
              * */
-            this.$bvToast.hide();
+            this.$emit('hideToasts');
 
             this.$emit('showErrorToast');
             this.setSuccess(false);
