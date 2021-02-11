@@ -35,10 +35,10 @@ export const store = new Vuex.Store({
   },
   getters: {
     formData: state => state.form,
-    phone: state => state.phone,
-    company: state => state.company,
-    name: state => state.name,
-    message: state => state.message,
+    phone: state => state.form.phone,
+    company: state => state.form.company,
+    name: state => state.form.name,
+    message: state => state.form.message,
     success: state => state.success,
     sending: state => state.sending,
     verifyingData: state => state.verifyingData,
@@ -81,14 +81,18 @@ export const store = new Vuex.Store({
       );
       const data = await response.json();
 
-      data.length
-        ? commit('setVerifyingData', data)
-        : commit('setVerifyingData', []);
-      /***
-       *  Присваиваем значение имя/организации, первым значением из списка
-       * */
-      commit('setCompany', getters.companies[0] ?? '');
-      commit('setName', getters.names[0] ?? '');
+      if (data.length) {
+        commit('setVerifyingData', data);
+        /***
+         *  Присваиваем значение имя/организации, первым значением из списка
+         * */
+        commit('setCompany', getters.companies[0]);
+        commit('setName', getters.names[0]);
+      } else {
+        commit('setVerifyingData', [])
+      }
+
+
     }
   },
 });
