@@ -5,6 +5,7 @@
         <h2>Задать вопрос</h2>
         <hr>
         <SimpleForm></SimpleForm>
+<!--        <ExtendedForm></ExtendedForm>-->
       </b-col>
       <svg id="clouds" alt="Gray Clouds Background" xmlns="http://www.w3.org/2000/svg" width="2611.084"
            height="485.677"
@@ -18,12 +19,15 @@
 </template>
 
 <script>
-  import SimpleForm from "@/components/SimpleForm";
+  // import SimpleForm from "./SimpleForm";
+  // import ExtendedForm from "./ExtendedForm";
+  import SimpleForm from "./simple-form/SimpleForm";
 
   export default {
     name: "MainContainer",
     components: {
-      SimpleForm
+      SimpleForm,
+      // ExtendedForm
     }
   }
 </script>
