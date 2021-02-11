@@ -108,7 +108,7 @@
           this.setSuccess(null);
         }
 
-        console.log(v, v.length, this.phoneFilled);
+        // console.log(v, v.length, this.phoneFilled);
 
       },
       async verifyPhone(phone) {
@@ -152,6 +152,7 @@
           if (e.name === 'AbortError') {
             console.log('Request cancelled...');
           } else {
+            // console.log(e);
             /***
              *  Зыакрываем, если были открыты
              * */
