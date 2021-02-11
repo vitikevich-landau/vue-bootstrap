@@ -84,7 +84,14 @@
         try {
 
           /***
-           *  Send post request to server
+           *  Передача только данных SimpleForm на сервер
+           *      form: {
+           *         phone: '',
+           *         company: '',
+           *         name: '',
+           *         message: ''
+           *       },
+           *
            * */
           const {data} = await delay();
 
