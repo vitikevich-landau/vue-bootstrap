@@ -45,8 +45,8 @@ export const store = new Vuex.Store({
     verified: state => !!state.verifyingData.length,
     phoneFilled: state => state.phoneFilled,
     formCompleted: state => state.phoneFilled
-      && state.name.length > 1
-      && state.message.length > 1,
+      && state.form.name.length > 1
+      && state.form.message.length > 1,
     companies: state => [...new Set(state.verifyingData.map(v => v.title))],
     names: state => [...new Set(state.verifyingData.map(v => v.name))],
   },
