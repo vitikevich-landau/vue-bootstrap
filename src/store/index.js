@@ -66,8 +66,8 @@ export const store = new Vuex.Store({
       state.form.message = '';
 
       state.success = null;
-
       state.verifyingData = [];
+      state.phoneFilled = false;
     }
   },
   actions: {
