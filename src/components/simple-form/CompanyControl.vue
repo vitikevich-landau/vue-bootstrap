@@ -7,7 +7,7 @@
       label-class="font-weight-bold"
   >
     <template v-slot:label>
-      Организация:
+      Организация (выбрать из списка):
     </template>
     <b-form-select
         id="company"
