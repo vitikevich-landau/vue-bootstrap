@@ -36,7 +36,7 @@
 <script>
   import {mask} from 'vue-the-mask';
   import {BIconArrowRepeat} from 'bootstrap-vue';
-  import {store} from '../../store';
+  import {store} from '../../store/simple-form';
   import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {

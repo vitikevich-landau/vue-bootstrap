@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import {store} from '../../store';
+  import {store} from '../../store/simple-form';
   import {mapGetters, mapMutations} from 'vuex';
 
   export default {

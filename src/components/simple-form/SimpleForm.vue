@@ -19,7 +19,7 @@
 
 <script>
   import delay from "../../lib/delay";
-  import {store} from '../../store/index';
+  import {store} from '../../store/simple-form';
   import {mapGetters, mapMutations} from 'vuex';
   import PhoneControl from "./PhoneControl";
   import CompanyControl from "./CompanyControl";
@@ -34,7 +34,7 @@
       CompanyControl,
       NameControl,
       MessageControl,
-      SubmitButton
+      SubmitButton,
     },
     store,
     data() {
