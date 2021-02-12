@@ -118,7 +118,7 @@ export const store = new Vuex.Store({
       );
       const data = await response.json();
 
-      console.log(data.length);
+      // console.log(data.length);
 
       if (data.length) {
         commit('setData', data);

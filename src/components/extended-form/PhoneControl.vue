@@ -15,7 +15,7 @@
       <!-- Show while data load -->
       <template #append v-if="verifying">
         <b-input-group-text>
-          <b-icon-arrow-repeat animation="spin"></b-icon-arrow-repeat>
+          <b-icon-arrow-repeat animation="spin-reverse"></b-icon-arrow-repeat>
         </b-input-group-text>
       </template>
 
@@ -145,7 +145,7 @@
 
           // console.log(this.data);
           // console.log(this.companies);
-          console.log(this.groupedByTitleData[this.company]);
+          // console.log(this.groupedByTitleData[this.company]);
           // console.log(this.names);
 
           /***

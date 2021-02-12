@@ -1,7 +1,7 @@
 <template>
   <b-form-group
       v-if="verified"
-      id="section_group"
+      id="module_group"
       :disabled="sending"
       label-class="font-weight-bold"
   >
@@ -12,10 +12,9 @@
       </span>
     </template>
     <b-form-select
-        id="section"
+        id="module"
         v-model.trim="module_"
         :options="modules"
-        :state="success"
     ></b-form-select>
   </b-form-group>
 </template>
@@ -43,13 +42,15 @@
           return this.module;
         },
         set(v) {
+          this.setCurator('');
           this.setModule(v);
         },
       }
     },
     methods: {
       ...mapMutations([
-        'setModule'
+        'setModule',
+        'setCurator'
       ])
     },
   }

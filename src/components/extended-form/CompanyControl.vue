@@ -15,7 +15,6 @@
         id="company"
         v-model="company_"
         :options="companies"
-        :state="success"
     ></b-form-select>
   </b-form-group>
 </template>
@@ -43,9 +42,9 @@
           return this.company;
         },
         set(v) {
-          this.setCompany(v);
           this.setModule('');
           this.setCurator('');
+          this.setCompany(v);
         },
       },
     },

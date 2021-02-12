@@ -25,7 +25,7 @@
           </b-dropdown-item>
         </b-dropdown>
       </template>
-      <b-form-input id="name" :state="success" v-model.trim="name_" :maxlength="max"
+      <b-form-input id="name" v-model.trim="name_" :maxlength="max"
                     autocomplete="off"></b-form-input>
     </b-input-group>
   </b-form-group>

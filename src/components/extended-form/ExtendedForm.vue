@@ -8,7 +8,7 @@
       <NameControl v-if="company"/>
       <ModuleControl v-if="name && company"/>
       <CuratorsControl v-if="module && name"/>
-      <MessageControl v-if="curator"/>
+      <MessageControl v-if="name && curator"/>
       <SubmitButton v-if="false"/>
     </b-form>
 
