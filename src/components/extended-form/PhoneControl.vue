@@ -13,11 +13,13 @@
     </template>
     <b-input-group>
       <!-- Show while data load -->
-      <template #append v-if="verifying">
-        <b-input-group-text>
-          <b-icon-arrow-repeat animation="spin-reverse"></b-icon-arrow-repeat>
-        </b-input-group-text>
-      </template>
+      <!--      <template #append v-if="verifying">-->
+      <!--        <b-input-group-text>-->
+      <!--          <b-icon-arrow-repeat animation="pulse"></b-icon-arrow-repeat>-->
+      <!--&lt;!&ndash;          <b-icon icon="arrow-repeat" animation="spin"></b-icon>&ndash;&gt;-->
+      <!--        </b-input-group-text>-->
+      <!--      </template>-->
+
 
       <b-form-input
           id="phone"
@@ -28,6 +30,7 @@
           placeholder="+7 (___) ___ ____"
           v-mask="'+7 (###) ### ####'"
           :state="success"
+          :class="verifying ? 'loader': ''"
       ></b-form-input>
     </b-input-group>
   </b-form-group>
@@ -35,7 +38,7 @@
 
 <script>
   import {mask} from 'vue-the-mask';
-  import {BIconArrowRepeat} from 'bootstrap-vue';
+  import {BIcon, BIconArrowRepeat} from 'bootstrap-vue';
   import {store} from '../../store/extended-form';
   import {mapGetters, mapMutations, mapActions} from 'vuex';
 
@@ -44,6 +47,9 @@
     store,
     directives: {mask},
     components: {
+      // eslint-disable-next-line vue/no-unused-components
+      BIcon,
+      // eslint-disable-next-line vue/no-unused-components
       BIconArrowRepeat
     },
     data() {
@@ -153,7 +159,7 @@
            * */
           this.$emit('hideToasts');
 
-          if(this.verified) {
+          if (this.verified) {
             this.setSuccess(true);
           } else {
             this.setSuccess(null);
@@ -184,5 +190,13 @@
 </script>
 
 <style scoped>
-
+  /*.was-validated .form-control:valid, .form-control.is-valid {*/
+  /*  background-image: none;*/
+  /*}*/
+  .loader {
+    background-image: url("../../assets/verifying.svg");
+    background-repeat: no-repeat;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    background-position: right calc(0.375em + 0.1875rem) center;
+  }
 </style>
