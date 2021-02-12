@@ -10,7 +10,7 @@
       Имя:
       <span :style="{fontSize: '18px'}" class="text-danger">
             <strong>*</strong>
-          </span>
+      </span>
     </template>
     <b-input-group>
       <!-- Show if items more > 1 -->
@@ -19,7 +19,6 @@
           <b-dropdown-item
               v-for="(item, i) in names"
               :key="`${item}-${i}`"
-              :data-value="item"
               @click="name_ = $event.target.innerText"
           >
             {{item}}
@@ -33,7 +32,7 @@
 </template>
 
 <script>
-  import {store} from '../../store/simple-form';
+  import {store} from '../../store/extended-form';
   import {mapGetters, mapMutations} from 'vuex';
 
   export default {

@@ -1,38 +1,59 @@
 <template>
   <b-form-group
-      v-if="verified"
-      id="company_group"
+      id="curator_group"
       :disabled="sending"
       label-class="font-weight-bold"
   >
     <template v-slot:label>
-      Организация (выбрать из списка):
+      Куратор:
+      <span :style="{fontSize: '18px'}" class="text-danger">
+          <strong>*</strong>
+      </span>
     </template>
     <b-form-select
-        id="company"
-        v-model="company_"
-        :options="companies"
+        id="curator"
+        v-model="curator_"
+        :options="curators"
         :state="success"
     ></b-form-select>
   </b-form-group>
 </template>
 
 <script>
-  import {store} from '../../store';
+  import {store} from '../../store/extended-form';
   import {mapGetters, mapMutations} from 'vuex';
 
   export default {
+    created() {
+      // console.log(this.curators);
+    },
     name: "CuratorsControl",
     store,
-    data () {},
+    data() {
+      return {};
+    },
     computed: {
       ...mapGetters([
         'verified',
         'sending',
-        'success'
+        'success',
+        'curators',
+        'curator'
       ]),
+      curator_: {
+        get() {
+          return this.curator;
+        },
+        set(v) {
+          this.setCurator(v);
+        },
+      }
     },
-    methods: {}
+    methods: {
+      ...mapMutations([
+        'setCurator'
+      ]),
+    }
   }
 </script>
 

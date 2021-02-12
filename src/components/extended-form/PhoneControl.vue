@@ -6,7 +6,7 @@
       :disabled="sending"
   >
     <template v-slot:label>
-      Номер телефона
+      Номер телефона:
       <span :style="{fontSize: '18px'}" class="text-danger">
             <strong>*</strong>
           </span>
@@ -36,7 +36,7 @@
 <script>
   import {mask} from 'vue-the-mask';
   import {BIconArrowRepeat} from 'bootstrap-vue';
-  import {store} from '../../store/simple-form';
+  import {store} from '../../store/extended-form';
   import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {
@@ -66,7 +66,12 @@
         'formCompleted',
         'success',
         'sending',
-        'verified'
+        'verified',
+        'data',
+        'companies',
+        'names',
+        'groupedByTitleData',
+        'company'
       ])
     },
     methods: {
@@ -75,7 +80,8 @@
         'setPhoneFilled',
         'setSuccess',
         'setCompany',
-        'setName'
+        'setName',
+        'dropWithOutPhone'
       ]),
       ...mapActions([
         'verifyUser'
@@ -88,12 +94,11 @@
          *   Последний символ в запросе должен быть цифрой
          * */
         if (v.length === 17 && /[0-9]/.test(v[v.length - 1])) {
-
-
           /***
            *  Если телефон заполнен и предыдущее значение не равно текущему
            * */
           if (!this.phoneFilled || this.previousPhone !== v) {
+            this.dropWithOutPhone();
             this.previousPhone = v;
 
             // console.log(`v: ${v}, previousPhone: ${this.previousPhone}`);
@@ -104,6 +109,7 @@
           this.setPhoneFilled(true);
         } else if (v.length < 17) {
 
+          this.dropWithOutPhone();
           this.setPhoneFilled(false);
           this.setSuccess(null);
         }
@@ -135,16 +141,12 @@
           this.setSuccess(null);
 
 
-          // await this.verifyUser({signal, phone});
+          await this.verifyUser({signal, phone});
 
-          const response = await fetch(
-            `http://192.168.1.132:8185/api/verify-phone?phone=${encodeURIComponent(phone)}`,
-            {signal}
-          );
-
-          const data = await response.json();
-
-          console.log(data);
+          // console.log(this.data);
+          // console.log(this.companies);
+          console.log(this.groupedByTitleData[this.company]);
+          // console.log(this.names);
 
           /***
            *  Зыакрываем, если были открыты

@@ -8,7 +8,7 @@
       Текст обращения
       <span :style="{fontSize: '18px'}" class="text-danger">
             <strong>*</strong>
-          </span>
+      </span>
     </template>
     <template v-slot:description>
       <span :style="{float: 'right'}">{{message.length}} / {{max}}</span>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-  import {store} from '../../store/simple-form';
+  import {store} from '../../store/extended-form';
   import {mapGetters, mapMutations} from 'vuex';
 
   export default {
@@ -43,8 +43,12 @@
         'sending'
       ]),
       message_: {
-        get() { return this.message; },
-        set(v) { this.setMessage(v); }
+        get() {
+          return this.message;
+        },
+        set(v) {
+          this.setMessage(v);
+        }
       }
     },
     methods: {

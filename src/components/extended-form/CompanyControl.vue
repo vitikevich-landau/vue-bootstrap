@@ -1,13 +1,15 @@
 <template>
   <!--  Company  -->
   <b-form-group
-      v-if="verified"
       id="company_group"
       :disabled="sending"
       label-class="font-weight-bold"
   >
     <template v-slot:label>
-      Организация (выбрать из списка):
+      Организация:
+      <span :style="{fontSize: '18px'}" class="text-danger">
+            <strong>*</strong>
+      </span>
     </template>
     <b-form-select
         id="company"
@@ -19,7 +21,7 @@
 </template>
 
 <script>
-  import {store} from '../../store/simple-form';
+  import {store} from '../../store/extended-form';
   import {mapGetters, mapMutations} from 'vuex';
 
   export default {
@@ -34,7 +36,7 @@
         'sending',
         'companies',
         'company',
-        'success'
+        'success',
       ]),
       company_: {
         get () {
@@ -42,12 +44,16 @@
         },
         set(v) {
           this.setCompany(v);
+          this.setModule('');
+          this.setCurator('');
         },
-      }
+      },
     },
     methods: {
       ...mapMutations([
-        'setCompany'
+        'setCompany',
+        'setModule',
+        'setCurator',
       ])
     }
   }

@@ -6,23 +6,26 @@
       label-class="font-weight-bold"
   >
     <template v-slot:label>
-      Раздел (выбрать из списка):
+      Модуль:
+      <span :style="{fontSize: '18px'}" class="text-danger">
+            <strong>*</strong>
+      </span>
     </template>
     <b-form-select
         id="section"
-        v-model="section_"
-        :options="sections"
+        v-model.trim="module_"
+        :options="modules"
         :state="success"
     ></b-form-select>
   </b-form-group>
 </template>
 
 <script>
-  import {store} from '../../store';
+  import {store} from '../../store/extended-form';
   import {mapGetters, mapMutations} from 'vuex';
 
   export default {
-    name: "SectionControl",
+    name: "ModuleControl",
     store,
     data() {
       return {}
@@ -32,21 +35,21 @@
         'verified',
         'sending',
         'success',
-        'sections',
-        'section'
+        'module',
+        'modules'
       ]),
-      section_: {
+      module_: {
         get() {
-          return this.section;
+          return this.module;
         },
         set(v) {
-          this.setSection(v);
+          this.setModule(v);
         },
       }
     },
     methods: {
       ...mapMutations([
-        'setSection'
+        'setModule'
       ])
     },
   }

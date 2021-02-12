@@ -4,8 +4,8 @@
       <b-col cols="12">
         <h2>Задать вопрос</h2>
         <hr>
-        <SimpleForm></SimpleForm>
-<!--        <ExtendedForm></ExtendedForm>-->
+<!--        <SimpleForm></SimpleForm>-->
+        <ExtendedForm></ExtendedForm>
       </b-col>
       <svg id="clouds" alt="Gray Clouds Background" xmlns="http://www.w3.org/2000/svg" width="2611.084"
            height="485.677"
@@ -20,14 +20,14 @@
 
 <script>
   // import SimpleForm from "./SimpleForm";
-  // import ExtendedForm from "./ExtendedForm";
-  import SimpleForm from "./simple-form/SimpleForm";
+  import ExtendedForm from "./extended-form/ExtendedForm";
+  // import SimpleForm from "./simple-form/SimpleForm";
 
   export default {
     name: "MainContainer",
     components: {
-      SimpleForm,
-      // ExtendedForm
+      // SimpleForm,
+      ExtendedForm
     }
   }
 </script>

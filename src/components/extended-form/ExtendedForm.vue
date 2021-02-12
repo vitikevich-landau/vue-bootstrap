@@ -4,26 +4,30 @@
       <PhoneControl
           @hideToasts="hideToasts"
           @showErrorToast="showErrorToast"/>
-      <CompanyControl/>
-      <NameControl/>
-      <MessageControl/>
-      <SubmitButton/>
+      <CompanyControl v-if="verified"/>
+      <NameControl v-if="company"/>
+      <ModuleControl v-if="name && company"/>
+      <CuratorsControl v-if="module && name"/>
+      <MessageControl v-if="curator"/>
+      <SubmitButton v-if="false"/>
     </b-form>
 
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ formData }}</pre>
-      <!--          <pre class="m-0">{{ verifyingData }}</pre>-->
+<!--      <pre class="m-0">{{ verifyingData }}</pre>-->
     </b-card>
   </div>
 </template>
 
 <script>
   import delay from "../../lib/delay";
-  import {store} from '../../store/index';
+  import {store} from '../../store/extended-form';
   import {mapGetters, mapMutations} from 'vuex';
   import PhoneControl from "./PhoneControl";
   import CompanyControl from "./CompanyControl";
   import NameControl from "./NameControl";
+  import ModuleControl from "./ModuleControl";
+  import CuratorsControl from "./CuratorsControl";
   import MessageControl from "./MessageControl";
   import SubmitButton from "./SubmitButton";
 
@@ -33,6 +37,8 @@
       PhoneControl,
       CompanyControl,
       NameControl,
+      ModuleControl,
+      CuratorsControl,
       MessageControl,
       SubmitButton
     },
@@ -48,12 +54,18 @@
        * */
       ...mapGetters([
         'formData',
-        'verifyingData'
+        'verifyingData',
+        'verified',
+        'companyFilled',
+        'company',
+        'name',
+        'module',
+        'curator'
       ]),
     },
     methods: {
       ...mapMutations([
-        'resetForm',
+        'dropStore',
         'setSuccess',
         'setSending'
       ]),
@@ -106,7 +118,7 @@
           this.$bvToast.hide();
           this.showSuccessToast();
 
-          this.resetForm();
+          this.dropStore();
 
           this.setSuccess(null);
         } catch (e) {
