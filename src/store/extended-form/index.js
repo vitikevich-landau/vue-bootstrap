@@ -98,7 +98,7 @@ export const store = new Vuex.Store({
       state.success = null;
       state.data = [];
       state.groupedByTitleData = [];
-      state.phoneFilled = false;
+      // state.phoneFilled = false;
       state.companyFilled = false;
     },
     dropStore: ({commit}) => {
