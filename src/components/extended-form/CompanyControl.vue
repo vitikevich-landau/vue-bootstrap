@@ -15,6 +15,7 @@
         id="company"
         v-model="company_"
         :options="companies"
+        :class="{'is-valid': company}"
     ></b-form-select>
   </b-form-group>
 </template>

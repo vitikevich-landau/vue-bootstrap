@@ -12,15 +12,6 @@
           </span>
     </template>
     <b-input-group>
-      <!-- Show while data load -->
-      <!--      <template #append v-if="verifying">-->
-      <!--        <b-input-group-text>-->
-      <!--          <b-icon-arrow-repeat animation="pulse"></b-icon-arrow-repeat>-->
-      <!--&lt;!&ndash;          <b-icon icon="arrow-repeat" animation="spin"></b-icon>&ndash;&gt;-->
-      <!--        </b-input-group-text>-->
-      <!--      </template>-->
-
-
       <b-form-input
           id="phone"
           @input="onInputPhone"
@@ -30,7 +21,7 @@
           placeholder="+7 (___) ___ ____"
           v-mask="'+7 (###) ### ####'"
           :state="success"
-          :class="verifying ? 'loader': ''"
+          :class="{loader: verifying}"
       ></b-form-input>
     </b-input-group>
   </b-form-group>
@@ -38,7 +29,6 @@
 
 <script>
   import {mask} from 'vue-the-mask';
-  import {BIcon, BIconArrowRepeat} from 'bootstrap-vue';
   import {store} from '../../store/extended-form';
   import {mapGetters, mapMutations, mapActions} from 'vuex';
 
@@ -46,12 +36,6 @@
     name: "PhoneControl",
     store,
     directives: {mask},
-    components: {
-      // eslint-disable-next-line vue/no-unused-components
-      BIcon,
-      // eslint-disable-next-line vue/no-unused-components
-      BIconArrowRepeat
-    },
     data() {
       return {
         previousPhone: null,

@@ -15,7 +15,7 @@
     <b-input-group>
       <!-- Show if items more > 1 -->
       <template #append v-if="names.length > 1">
-        <b-dropdown right ref="dropdown" variant="outline-success">
+        <b-dropdown right ref="dropdown" variant="outline-secondary">
           <b-dropdown-item
               v-for="(item, i) in names"
               :key="`${item}-${i}`"
@@ -25,8 +25,13 @@
           </b-dropdown-item>
         </b-dropdown>
       </template>
-      <b-form-input id="name" v-model.trim="name_" :maxlength="max"
-                    autocomplete="off"></b-form-input>
+      <b-form-input
+          id="name"
+          v-model.trim="name_"
+          :maxlength="max"
+          autocomplete="off"
+          :class="{'is-valid': name}"
+      ></b-form-input>
     </b-input-group>
   </b-form-group>
 </template>

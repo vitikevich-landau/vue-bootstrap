@@ -14,6 +14,7 @@
         id="curator"
         v-model="curator_"
         :options="curators"
+        :class="{'is-valid': curator}"
     ></b-form-select>
   </b-form-group>
 </template>

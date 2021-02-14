@@ -20,6 +20,7 @@
         v-model.trim="message_"
         :maxlength="max"
         :disabled="sending"
+        :class="{'is-valid': message}"
     ></b-form-textarea>
   </b-form-group>
 </template>

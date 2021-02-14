@@ -15,6 +15,7 @@
         id="module"
         v-model.trim="module_"
         :options="modules"
+        :class="{'is-valid': module}"
     ></b-form-select>
   </b-form-group>
 </template>
