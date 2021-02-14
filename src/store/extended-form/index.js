@@ -62,8 +62,11 @@ export const store = new Vuex.Store({
     phoneFilled: state => state.phoneFilled,
     companyFilled: state => state.companyFilled,
     formCompleted: state => state.phoneFilled
-      && state.form.name.length > 1
-      && state.form.message.length > 1,
+      && state.form.company
+      && state.form.name
+      && state.form.message
+      && state.form.module
+      && state.form.curator,
     companies: state => Object.keys(state.groupedByTitleData),
     names: state => [...new Set(state.data.map(v => v.name))],
     modules: (state, getters) => [...new Set(state.groupedByTitleData[getters.company]?.map(v => v.module))],
@@ -98,16 +101,15 @@ export const store = new Vuex.Store({
       state.success = null;
       state.data = [];
       state.groupedByTitleData = [];
-      // state.phoneFilled = false;
       state.companyFilled = false;
-    },
-    dropStore: ({commit}) => {
-      commit('setPhone', '');
-      commit('dropWithOutPhone');
-
     },
   },
   actions: {
+    dropStore({commit}) {
+      commit('setPhone');
+      commit('setPhoneFilled');
+      commit('dropWithOutPhone');
+    },
     verifyUser: async (
       {commit, getters},
       {signal, phone}
