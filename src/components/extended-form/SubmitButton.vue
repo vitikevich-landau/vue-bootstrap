@@ -5,6 +5,7 @@
         type="submit"
         variant="primary"
         :disabled="!formCompleted"
+        @click="$emit('onSubmit')"
     >
       Отправить
     </b-button>
@@ -20,7 +21,7 @@
 </template>
 
 <script>
-  import {store} from '../../store/simple-form';
+  import {store} from '../../store/extended-form';
   import {mapGetters} from 'vuex';
 
   export default {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit.prevent="onSubmit">
+    <b-form @submit.prevent>
       <PhoneControl
           @hideToasts="hideToasts"
           @showErrorToast="showErrorToast"/>
@@ -9,7 +9,7 @@
       <ModuleControl v-if="name && company"/>
       <CuratorsControl v-if="module && name"/>
       <MessageControl v-if="name && curator"/>
-      <SubmitButton v-if="false"/>
+      <SubmitButton @onSubmit="onSubmit" v-if="curator"/>
     </b-form>
 
     <b-card class="mt-3" header="Form Data Result">
@@ -22,7 +22,7 @@
 <script>
   import delay from "../../lib/delay";
   import {store} from '../../store/extended-form';
-  import {mapGetters, mapMutations} from 'vuex';
+  import {mapGetters, mapMutations, mapActions} from 'vuex';
   import PhoneControl from "./PhoneControl";
   import CompanyControl from "./CompanyControl";
   import NameControl from "./NameControl";
@@ -56,7 +56,6 @@
         'formData',
         'verifyingData',
         'verified',
-        'companyFilled',
         'company',
         'name',
         'module',
@@ -65,9 +64,11 @@
     },
     methods: {
       ...mapMutations([
-        'dropStore',
         'setSuccess',
         'setSending'
+      ]),
+      ...mapActions([
+        'dropStore'
       ]),
       hideToasts() {
         this.$bvToast.hide();
@@ -115,18 +116,19 @@
           /***
            *  Зыакрываем, если были открыты
            * */
-          this.$bvToast.hide();
+          this.hideToasts();
           this.showSuccessToast();
 
           this.dropStore();
 
           this.setSuccess(null);
+
         } catch (e) {
 
           /***
            *  Зыакрываем, если были открыты
            * */
-          this.$bvToast.hide();
+          this.hideToasts();
           this.showErrorToast();
 
           this.setSuccess(false);
