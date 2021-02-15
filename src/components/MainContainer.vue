@@ -5,7 +5,7 @@
         <h2>Задать вопрос</h2>
         <hr>
         <transition name="fade" mode="out-in">
-          <SimpleForm v-if="switcher" ></SimpleForm>
+          <SimpleForm v-if="switcher"></SimpleForm>
           <ExtendedForm v-else></ExtendedForm>
         </transition>
       </b-col>
@@ -43,10 +43,10 @@
 
 <style scoped>
   .fade-enter-active, .fade-leave-active {
-    transition: opacity .3s ease;
+    transition: opacity .25s ease;
   }
-  .fade-enter, .fade-leave-to
-    /* .component-fade-leave-active до версии 2.1.8 */ {
+
+  .fade-enter, .fade-leave-to {
     opacity: 0;
   }
 
