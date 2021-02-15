@@ -9,9 +9,8 @@
       <ModuleControl v-if="name && company"/>
       <CuratorsControl v-if="module && name"/>
       <MessageControl v-if="name && curator"/>
-      <SubmitButton @onSubmit="onSubmit" v-if="curator"/>
+      <SubmitButton @onSubmit="onSubmit" v-if="name && curator"/>
     </b-form>
-
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ formData }}</pre>
 <!--      <pre class="m-0">{{ verifyingData }}</pre>-->
@@ -74,7 +73,7 @@
         this.$bvToast.hide();
       },
       showSuccessToast(/*msg*/) {
-        this.makeToast('success', 'Успех!', 'Ваше сообщение отправлено...');
+        this.makeToast('success', 'Успех!', 'Ваше обращение отправлено...');
       },
       showErrorToast(/*msg*/) {
         this.makeToast('danger', 'Ошибка!', 'Ошибка соединения с сервером... Попробуйте чуть позже');
