@@ -147,6 +147,18 @@
             this.setSuccess(true);
           } else {
             this.setSuccess(null);
+
+            this.$bvToast.toast(
+              'Вы не зарегистрированы в системе, переключитесь в режим обычной формы',
+              {
+                toaster: 'b-toaster-top-center',
+                title: 'Внимание !!!',
+                variant: 'warning',
+                solid: true,
+                autoHideDelay: 17000
+              });
+
+
           }
 
         } catch (e) {
