@@ -1,7 +1,10 @@
 <template>
   <div id="app">
-    <NavBar></NavBar>
-    <MainContainer></MainContainer>
+    <NavBar
+        @onSwitch="switcher = !switcher"
+        :switcher="switcher"
+    ></NavBar>
+    <MainContainer :switcher="switcher"></MainContainer>
 
   </div>
 </template>
@@ -15,6 +18,11 @@
     components: {
       NavBar,
       MainContainer
+    },
+    data() {
+      return {
+        switcher: true
+      }
     }
   }
 </script>

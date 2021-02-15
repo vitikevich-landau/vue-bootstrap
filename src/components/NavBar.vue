@@ -4,15 +4,26 @@
     <b-navbar-brand class="ml-2">FORMS.PARUSALTAI.RU</b-navbar-brand>
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav class="ml-auto">
-        <b-form-checkbox id="www" button-variant="outline-secondary" switch size="lg"></b-form-checkbox>
+        <b-form-checkbox
+            :value="switcher"
+            @input="$emit('onSwitch')"
+            id="www"
+            button-variant="outline-secondary"
+            switch
+            size="lg">
+        </b-form-checkbox>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </template>
 
 <script>
+
   export default {
-    name: "NavBar"
+    name: "NavBar",
+    props: {
+      switcher: Boolean
+    },
   }
 </script>
 
