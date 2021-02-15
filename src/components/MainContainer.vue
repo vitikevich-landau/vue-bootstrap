@@ -4,8 +4,10 @@
       <b-col cols="12">
         <h2>Задать вопрос</h2>
         <hr>
-        <SimpleForm v-if="switcher"></SimpleForm>
-        <ExtendedForm v-else></ExtendedForm>
+        <transition name="fade" mode="out-in">
+          <SimpleForm v-if="switcher" ></SimpleForm>
+          <ExtendedForm v-else></ExtendedForm>
+        </transition>
       </b-col>
       <svg id="clouds" alt="Gray Clouds Background" xmlns="http://www.w3.org/2000/svg" width="2611.084"
            height="485.677"
@@ -40,6 +42,14 @@
 </script>
 
 <style scoped>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s ease;
+  }
+  .fade-enter, .fade-leave-to
+    /* .component-fade-leave-active до версии 2.1.8 */ {
+    opacity: 0;
+  }
+
   .justify-content-md-center {
     max-width: 576px !important;
   }

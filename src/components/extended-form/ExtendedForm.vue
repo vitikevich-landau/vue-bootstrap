@@ -4,16 +4,28 @@
       <PhoneControl
           @hideToasts="hideToasts"
           @showErrorToast="showErrorToast"/>
-      <CompanyControl v-if="verified"/>
-      <NameControl v-if="company"/>
-      <ModuleControl v-if="name && company"/>
-      <CuratorsControl v-if="module && name"/>
-      <MessageControl v-if="name && curator"/>
-      <SubmitButton @onSubmit="onSubmit" v-if="name && curator"/>
+      <transition name="fade" mode="out-in">
+        <CompanyControl v-if="verified"/>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <NameControl v-if="company"/>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <ModuleControl v-if="name && company"/>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <CuratorsControl v-if="module && name"/>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <MessageControl v-if="name && curator"/>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <SubmitButton @onSubmit="onSubmit" v-if="name && curator"/>
+      </transition>
     </b-form>
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ formData }}</pre>
-<!--      <pre class="m-0">{{ verifyingData }}</pre>-->
+      <!--      <pre class="m-0">{{ verifyingData }}</pre>-->
     </b-card>
   </div>
 </template>
@@ -142,5 +154,13 @@
 </script>
 
 <style scoped>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s ease;
+  }
 
+  .fade-enter, .fade-leave-to
+    /* .component-fade-leave-active до версии 2.1.8 */
+  {
+    opacity: 0;
+  }
 </style>
