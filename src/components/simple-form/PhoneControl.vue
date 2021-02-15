@@ -6,19 +6,12 @@
       :disabled="sending"
   >
     <template v-slot:label>
-      Номер телефона
+      Номер телефона:
       <span :style="{fontSize: '18px'}" class="text-danger">
             <strong>*</strong>
           </span>
     </template>
     <b-input-group>
-      <!-- Show while data load -->
-      <template #append v-if="verifying">
-        <b-input-group-text>
-          <b-icon-arrow-repeat animation="spin"></b-icon-arrow-repeat>
-        </b-input-group-text>
-      </template>
-
       <b-form-input
           id="phone"
           @input="onInputPhone"
@@ -28,6 +21,7 @@
           placeholder="+7 (___) ___ ____"
           v-mask="'+7 (###) ### ####'"
           :state="success"
+          :class="{loader: verifying}"
       ></b-form-input>
     </b-input-group>
   </b-form-group>
@@ -35,7 +29,6 @@
 
 <script>
   import {mask} from 'vue-the-mask';
-  import {BIconArrowRepeat} from 'bootstrap-vue';
   import {store} from '../../store/simple-form';
   import {mapGetters, mapMutations, mapActions} from 'vuex';
 
@@ -43,9 +36,6 @@
     name: "PhoneControl",
     store,
     directives: {mask},
-    components: {
-      BIconArrowRepeat
-    },
     data() {
       return {
         previousPhone: null,
@@ -63,7 +53,6 @@
       ...mapGetters([
         'phone',
         'phoneFilled',
-        'formCompleted',
         'success',
         'sending',
         'verified'
@@ -74,8 +63,6 @@
         'setPhone',
         'setPhoneFilled',
         'setSuccess',
-        'setCompany',
-        'setName'
       ]),
       ...mapActions([
         'verifyUser'
@@ -173,5 +160,10 @@
 </script>
 
 <style scoped>
-
+  .loader {
+    background-image: url("../../assets/verifying.svg");
+    background-repeat: no-repeat;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    background-position: right calc(0.375em + 0.1875rem) center;
+  }
 </style>
