@@ -23,10 +23,10 @@
         <SubmitButton @onSubmit="onSubmit" v-if="name && curator"/>
       </transition>
     </b-form>
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ formData }}</pre>
-      <!--      <pre class="m-0">{{ verifyingData }}</pre>-->
-    </b-card>
+<!--    <b-card class="mt-3" header="Form Data Result">-->
+<!--      <pre class="m-0">{{ formData }}</pre>-->
+<!--      &lt;!&ndash;      <pre class="m-0">{{ verifyingData }}</pre>&ndash;&gt;-->
+<!--    </b-card>-->
   </div>
 </template>
 
@@ -113,7 +113,9 @@
            *         phone: '',
            *         company: '',
            *         name: '',
-           *         message: ''
+           *         message: '',
+           *         module: '',
+           *         curator: ''
            *       },
            *
            * */

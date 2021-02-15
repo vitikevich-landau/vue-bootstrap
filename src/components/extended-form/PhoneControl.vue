@@ -53,15 +53,9 @@
       ...mapGetters([
         'phone',
         'phoneFilled',
-        'formCompleted',
         'success',
         'sending',
         'verified',
-        'data',
-        'companies',
-        'names',
-        'groupedByTitleData',
-        'company'
       ])
     },
     methods: {
@@ -69,8 +63,6 @@
         'setPhone',
         'setPhoneFilled',
         'setSuccess',
-        'setCompany',
-        'setName',
         'dropWithOutPhone'
       ]),
       ...mapActions([
@@ -132,11 +124,6 @@
 
 
           await this.verifyUser({signal, phone});
-
-          // console.log(this.data);
-          // console.log(this.companies);
-          // console.log(this.groupedByTitleData[this.company]);
-          // console.log(this.names);
 
           /***
            *  Зыакрываем, если были открыты

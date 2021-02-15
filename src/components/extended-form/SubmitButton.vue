@@ -27,9 +27,6 @@
   export default {
     name: "SubmitButton",
     store,
-    data() {
-      return {}
-    },
     computed: {
       ...mapGetters([
         'sending',

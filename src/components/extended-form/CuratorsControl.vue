@@ -24,9 +24,6 @@
   import {mapGetters, mapMutations} from 'vuex';
 
   export default {
-    created() {
-      // console.log(this.curators);
-    },
     name: "CuratorsControl",
     store,
     data() {
@@ -34,9 +31,7 @@
     },
     computed: {
       ...mapGetters([
-        'verified',
         'sending',
-        'success',
         'curators',
         'curator'
       ]),

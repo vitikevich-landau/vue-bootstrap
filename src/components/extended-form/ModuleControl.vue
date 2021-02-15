@@ -34,7 +34,6 @@
       ...mapGetters([
         'verified',
         'sending',
-        'success',
         'module',
         'modules'
       ]),

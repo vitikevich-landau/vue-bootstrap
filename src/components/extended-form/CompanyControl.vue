@@ -32,11 +32,9 @@
     },
     computed: {
       ...mapGetters([
-        'verified',
         'sending',
         'companies',
         'company',
-        'success',
       ]),
       company_: {
         get () {
