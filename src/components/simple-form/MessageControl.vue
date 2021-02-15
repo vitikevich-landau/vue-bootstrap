@@ -39,7 +39,6 @@
     computed: {
       ...mapGetters([
         'message',
-        'success',
         'sending'
       ]),
       message_: {

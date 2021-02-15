@@ -10,10 +10,10 @@
       <SubmitButton/>
     </b-form>
 
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ formData }}</pre>
-      <!--          <pre class="m-0">{{ verifyingData }}</pre>-->
-    </b-card>
+<!--    <b-card class="mt-3" header="Form Data Result">-->
+<!--      <pre class="m-0">{{ formData }}</pre>-->
+<!--      &lt;!&ndash;          <pre class="m-0">{{ verifyingData }}</pre>&ndash;&gt;-->
+<!--    </b-card>-->
   </div>
 </template>
 
@@ -61,7 +61,7 @@
         this.$bvToast.hide();
       },
       showSuccessToast(/*msg*/) {
-        this.makeToast('success', 'Успех!', 'Ваше сообщение отправлено...');
+        this.makeToast('success', 'Успех!', 'Ваше обращение отправлено...');
       },
       showErrorToast(/*msg*/) {
         this.makeToast('danger', 'Ошибка!', 'Ошибка соединения с сервером... Попробуйте чуть позже');
