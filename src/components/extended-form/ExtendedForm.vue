@@ -1,5 +1,15 @@
 <template>
   <div>
+<!--   if completed  -->
+<!--    variant="success"-->
+    <b-progress
+        :value="progress"
+        :max="6"
+        :animated="true"
+        :striped="true"
+        class="mb-2"
+        :variant="formCompleted ? 'success' : ''"
+    ></b-progress>
     <b-form @submit.prevent>
       <PhoneControl
           @hideToasts="hideToasts"
@@ -70,8 +80,18 @@
         'company',
         'name',
         'module',
-        'curator'
+        'curator',
+        'message',
+        'formCompleted'
       ]),
+      progress() {
+        return !!this.verified
+          + !!this.company
+          + !!this.name
+          + !!this.module
+          + !!this.curator
+          + !!this.message;
+      }
     },
     methods: {
       ...mapMutations([
