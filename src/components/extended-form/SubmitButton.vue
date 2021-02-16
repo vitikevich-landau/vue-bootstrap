@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-form-group>
     <b-button
         v-if="!sending"
         type="submit"
@@ -17,7 +17,7 @@
       <b-spinner small type="grow"></b-spinner>
       Отправка...
     </b-button>
-  </div>
+  </b-form-group>
 </template>
 
 <script>
