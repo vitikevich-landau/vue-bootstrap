@@ -10,15 +10,16 @@
       <SubmitButton/>
     </b-form>
 
-<!--    <b-card class="mt-3" header="Form Data Result">-->
-<!--      <pre class="m-0">{{ formData }}</pre>-->
-<!--      &lt;!&ndash;          <pre class="m-0">{{ verifyingData }}</pre>&ndash;&gt;-->
-<!--    </b-card>-->
+    <!--    <b-card class="mt-3" header="Form Data Result">-->
+    <!--      <pre class="m-0">{{ formData }}</pre>-->
+    <!--      &lt;!&ndash;          <pre class="m-0">{{ verifyingData }}</pre>&ndash;&gt;-->
+    <!--    </b-card>-->
   </div>
 </template>
 
 <script>
-  import delay from "../../lib/delay";
+  const axios = require('axios');
+  // import delay from "../../lib/delay";
   import {store} from '../../store/simple-form';
   import {mapGetters, mapMutations} from 'vuex';
   import PhoneControl from "./PhoneControl";
@@ -26,6 +27,7 @@
   import NameControl from "./NameControl";
   import MessageControl from "./MessageControl";
   import SubmitButton from "./SubmitButton";
+
 
   export default {
     name: "SimpleForm",
@@ -57,6 +59,16 @@
         'setSuccess',
         'setSending'
       ]),
+      recaptchaToken() {
+        return new Promise((resolve) => {
+          // eslint-disable-next-line no-undef
+          grecaptcha.ready(async () => {
+            // eslint-disable-next-line no-undef
+            const token = await grecaptcha.execute("6Lc4dfwZAAAAAB2wHs5hmA9SCTxuC6oThkc2-anR");
+            resolve(token);
+          });
+        });
+      },
       hideToasts() {
         this.$bvToast.hide();
       },
@@ -75,31 +87,28 @@
           autoHideDelay: 17000
         });
       },
-      async onSubmit() {
+      onSubmit: async function () {
         /***
          *  before send
          * */
         this.setSending(true);
 
         try {
+          // const {data} = await delay();
+          const {phone, company, name, message: text} = this.formData;
+          // const token = await this.recaptchaToken();
 
-          /***
-           *  Передача только данных SimpleForm на сервер
-           *      form: {
-           *         phone: '',
-           *         company: '',
-           *         name: '',
-           *         message: ''
-           *       },
-           *
-           * */
-          const {data} = await delay();
-
+          const data = await axios.post('api/send', {
+            phone,
+            company,
+            name,
+            text,
+            // token
+          });
           /***
            *  After send
            * */
           console.log(data);
-
           /***
            *  Зыакрываем, если были открыты
            * */
@@ -110,7 +119,7 @@
 
           this.setSuccess(null);
         } catch (e) {
-
+          console.log('error: ', e);
           /***
            *  Зыакрываем, если были открыты
            * */
