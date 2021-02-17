@@ -20,7 +20,10 @@
         v-model.trim="message_"
         :maxlength="max"
         :disabled="sending"
-        :class="{'is-valid': message}"
+        :class="{
+          'is-valid': message,
+          'is-invalid': success === false
+        }"
     ></b-form-textarea>
   </b-form-group>
 </template>
@@ -40,7 +43,8 @@
     computed: {
       ...mapGetters([
         'message',
-        'sending'
+        'sending',
+        'success'
       ]),
       message_: {
         get() {

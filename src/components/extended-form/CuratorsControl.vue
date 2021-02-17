@@ -14,7 +14,10 @@
         id="curator"
         v-model="curator_"
         :options="curators"
-        :class="{'is-valid': curator}"
+        :class="{
+          'is-valid': curator,
+          'is-invalid': success === false,
+        }"
     ></b-form-select>
   </b-form-group>
 </template>
@@ -33,7 +36,8 @@
       ...mapGetters([
         'sending',
         'curators',
-        'curator'
+        'curator',
+        'success'
       ]),
       curator_: {
         get() {

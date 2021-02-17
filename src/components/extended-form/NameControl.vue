@@ -30,7 +30,10 @@
           v-model.trim="name_"
           :maxlength="max"
           autocomplete="off"
-          :class="{'is-valid': name}"
+          :class="{
+            'is-valid': name,
+            'is-invalid': success === false,
+          }"
       ></b-form-input>
     </b-input-group>
   </b-form-group>
@@ -53,6 +56,7 @@
         'sending',
         'names',
         'name',
+        'success'
       ]),
       name_: {
         get() {

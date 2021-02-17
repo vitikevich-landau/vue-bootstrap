@@ -15,7 +15,10 @@
         id="module"
         v-model.trim="module_"
         :options="modules"
-        :class="{'is-valid': module}"
+        :class="{
+          'is-valid': module,
+          'is-invalid': success === false
+        }"
     ></b-form-select>
   </b-form-group>
 </template>
@@ -35,7 +38,8 @@
         'verified',
         'sending',
         'module',
-        'modules'
+        'modules',
+        'success'
       ]),
       module_: {
         get() {

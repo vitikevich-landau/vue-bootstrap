@@ -8,7 +8,7 @@
         :animated="true"
         :striped="true"
         class="mb-2"
-        :variant="formCompleted ? 'success' : ''"
+        :variant="formCompleted && success !== false ? 'success' : success === false ? 'danger': ''"
     ></b-progress>
     <b-form @submit.prevent>
       <PhoneControl
@@ -83,7 +83,8 @@
         'module',
         'curator',
         'message',
-        'formCompleted'
+        'formCompleted',
+        'success'
       ]),
       progress() {
         return !!this.verified

@@ -39,7 +39,8 @@
     computed: {
       ...mapGetters([
         'message',
-        'sending'
+        'sending',
+        'success'
       ]),
       message_: {
         get() { return this.message; },

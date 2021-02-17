@@ -15,7 +15,10 @@
         id="company"
         v-model="company_"
         :options="companies"
-        :class="{'is-valid': company}"
+        :class="{
+          'is-valid': company,
+          'is-invalid': success === false
+        }"
     ></b-form-select>
   </b-form-group>
 </template>
@@ -35,6 +38,7 @@
         'sending',
         'companies',
         'company',
+        'success'
       ]),
       company_: {
         get () {
