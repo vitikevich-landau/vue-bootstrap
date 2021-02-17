@@ -130,7 +130,7 @@
           // const {data} = await delay();
           const {phone, company, name, message: text, module, curator} = this.formData;
 
-          await axios.post('api/send', {
+          await axios.post('http://192.168.1.200:8185/api/send', {
             phone,
             company,
             name,

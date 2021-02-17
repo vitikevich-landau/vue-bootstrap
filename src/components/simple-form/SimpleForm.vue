@@ -98,17 +98,17 @@
           const {phone, company, name, message: text} = this.formData;
           // const token = await this.recaptchaToken();
 
-          const data = await axios.post('api/send', {
+          await axios.post('http://192.168.1.200:8185/api/send', {
             phone,
             company,
             name,
             text,
             // token
           });
+
           /***
            *  After send
            * */
-          console.log(data);
           /***
            *  Зыакрываем, если были открыты
            * */

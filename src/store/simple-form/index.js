@@ -76,7 +76,7 @@ export const store = new Vuex.Store({
       {signal, phone}
     ) => {
       const response = await fetch(
-        `/api/verify-phone?phone=${encodeURIComponent(phone)}`,
+        `http://192.168.1.200:8185/api/verify-phone?phone=${encodeURIComponent(phone)}`,
         {signal}
       );
       const data = await response.json();
