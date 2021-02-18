@@ -1,77 +1,82 @@
 <template>
   <div>
-    <b-form @submit.prevent="onSubmit">
+    <b-form @submit.prevent="submit">
       <PhoneControl
-          @hideToasts="hideToasts"
-          @showErrorToast="showErrorToast"/>
-      <CompanyControl/>
-      <NameControl/>
-      <MessageControl/>
-      <SubmitButton/>
+          @onServerError="showErrorToast"
+      />
+      <NameControl
+          :disabled="sending"
+          :names="names"
+          :name="name"
+          :control-state="success"
+          @onChangeName="setName"
+      />
+      <CompanyControl
+          v-if="verified"
+          :disabled="sending"
+          :companies="companies"
+          :company="company"
+          :control-state="success"
+      >
+        <template>
+          Организация (выбрать из списка):
+          <span :style="{fontSize: '18px'}" class="text-danger">
+            <strong>*</strong>
+          </span>
+        </template>
+      </CompanyControl>
+      <MessageControl
+          :disabled="sending"
+          :message="message"
+          @onChangeMessage="setMessage"
+      />
+      <SubmitButton
+          :switch-button="!sending"
+          :disabled="!formCompleted"
+      />
     </b-form>
-
-    <!--    <b-card class="mt-3" header="Form Data Result">-->
-    <!--      <pre class="m-0">{{ formData }}</pre>-->
-    <!--      &lt;!&ndash;          <pre class="m-0">{{ verifyingData }}</pre>&ndash;&gt;-->
-    <!--    </b-card>-->
+    <pre>{{formData}}</pre>
   </div>
 </template>
 
 <script>
-  const axios = require('axios');
-  // import delay from "../../lib/delay";
+  import axios from 'axios';
   import {store} from '../../store/simple-form';
   import {mapGetters, mapMutations} from 'vuex';
-  import PhoneControl from "./PhoneControl";
-  import CompanyControl from "./CompanyControl";
   import NameControl from "./NameControl";
+  import PhoneControl from "./PhoneControlSimple";
+  import CompanyControl from "./CompanyControl";
   import MessageControl from "./MessageControl";
   import SubmitButton from "./SubmitButton";
-
+  // import delay from "../lib/delay";
 
   export default {
     name: "SimpleForm",
+    store,
     components: {
       PhoneControl,
-      CompanyControl,
       NameControl,
+      CompanyControl,
       MessageControl,
-      SubmitButton,
-    },
-    store,
-    data() {
-      return {
-        sending: false,
-      }
+      SubmitButton
     },
     computed: {
-      /***
-       *  Dedug
-       * */
       ...mapGetters([
+        'sending',
+        'names',
+        'name',
+        'success',
         'formData',
-        'verifyingData'
-      ]),
+        'phone',
+        'phoneFilled',
+        'verified',
+        'company',
+        'companies',
+        'message',
+        'formCompleted',
+      ])
     },
     methods: {
-      ...mapMutations([
-        'resetForm',
-        'setSuccess',
-        'setSending'
-      ]),
-      recaptchaToken() {
-        return new Promise((resolve) => {
-          // eslint-disable-next-line no-undef
-          grecaptcha.ready(async () => {
-            // eslint-disable-next-line no-undef
-            const token = await grecaptcha.execute("6Lc4dfwZAAAAAB2wHs5hmA9SCTxuC6oThkc2-anR");
-            resolve(token);
-          });
-        });
-      },
-      hideToasts() {
-        this.$bvToast.hide();
-      },
       showSuccessToast(/*msg*/) {
         this.makeToast('success', 'Успех!', 'Ваше обращение отправлено...');
       },
@@ -87,7 +92,7 @@
           autoHideDelay: 17000
         });
       },
-      onSubmit: async function () {
+      async submit() {
         /***
          *  before send
          * */
@@ -95,7 +100,11 @@
 
         try {
           // const {data} = await delay();
+          // console.log(data);
+
           const {phone, company, name, message: text} = this.formData;
+
+
           // const token = await this.recaptchaToken();
 
           await axios.post('http://192.168.1.200:8185/api/send', {
@@ -132,7 +141,15 @@
           this.setSending(false);
         }
       },
-
+      ...mapMutations([
+        'setName',
+        'setPhone',
+        'setPhoneFilled',
+        'setSuccess',
+        'setMessage',
+        'setSending',
+        'resetForm'
+      ]),
     }
   }
 </script>

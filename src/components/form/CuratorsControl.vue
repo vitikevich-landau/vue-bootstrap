@@ -1,7 +1,7 @@
 <template>
   <b-form-group
       id="curator_group"
-      :disabled="sending"
+      :disabled="disabled"
       label-class="font-weight-bold"
   >
     <template v-slot:label>
@@ -14,44 +14,32 @@
         id="curator"
         v-model="curator_"
         :options="curators"
-        :class="{
-          'is-valid': curator,
-          'is-invalid': success === false,
-        }"
+        :class="validateClasses"
     ></b-form-select>
   </b-form-group>
 </template>
 
 <script>
-  import {store} from '../../store/extended-form';
-  import {mapGetters, mapMutations} from 'vuex';
-
   export default {
     name: "CuratorsControl",
-    store,
-    data() {
-      return {};
+    props: {
+      disabled: Boolean,
+      curators: Array,
+      curator: String,
+      validateClasses: {
+        type: Object,
+        default: () => ({})
+      }
     },
     computed: {
-      ...mapGetters([
-        'sending',
-        'curators',
-        'curator',
-        'success'
-      ]),
       curator_: {
         get() {
           return this.curator;
         },
         set(v) {
-          this.setCurator(v);
+          this.$emit('onChangeCurator', v);
         },
       }
-    },
-    methods: {
-      ...mapMutations([
-        'setCurator'
-      ]),
     }
   }
 </script>

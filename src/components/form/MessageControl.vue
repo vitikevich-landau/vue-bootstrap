@@ -1,5 +1,4 @@
 <template>
-  <!-- Текст обращения -->
   <b-form-group
       label-for="textarea-formatter"
       label-class="font-weight-bold"
@@ -8,7 +7,7 @@
       Текст обращения
       <span :style="{fontSize: '18px'}" class="text-danger">
             <strong>*</strong>
-      </span>
+          </span>
     </template>
     <template v-slot:description>
       <span :style="{float: 'right'}">{{message.length}} / {{max}}</span>
@@ -19,44 +18,37 @@
         rows="6"
         v-model.trim="message_"
         :maxlength="max"
-        :disabled="sending"
-        :class="{
-          'is-valid': message,
-          'is-invalid': success === false
-        }"
+        :disabled="disabled"
+        :class="validateClasses"
     ></b-form-textarea>
   </b-form-group>
 </template>
 
 <script>
-  import {store} from '../../store/extended-form';
-  import {mapGetters, mapMutations} from 'vuex';
-
   export default {
     name: "MessageControl",
-    store,
+    props: {
+      disabled: Boolean,
+      message: String,
+      validateClasses: {
+        type: Object,
+        default: () => ({})
+      }
+    },
     data() {
       return {
         max: 1000
       }
     },
     computed: {
-      ...mapGetters([
-        'message',
-        'sending',
-        'success'
-      ]),
       message_: {
         get() {
           return this.message;
         },
         set(v) {
-          this.setMessage(v);
+          this.$emit('onChangeMessage', v);
         }
       }
-    },
-    methods: {
-      ...mapMutations(['setMessage'])
     }
   }
 </script>

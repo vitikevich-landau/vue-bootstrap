@@ -29,7 +29,7 @@
 
 <script>
   import {mask} from 'vue-the-mask';
-  import {store} from '../store/simple-form';
+  import {store} from '../../store/extended-form';
   import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {
@@ -55,7 +55,7 @@
         'phoneFilled',
         'success',
         'sending',
-        'verified'
+        'verified',
       ])
     },
     methods: {
@@ -63,6 +63,7 @@
         'setPhone',
         'setPhoneFilled',
         'setSuccess',
+        'dropWithOutPhone'
       ]),
       ...mapActions([
         'verifyUser'
@@ -75,12 +76,11 @@
          *   Последний символ в запросе должен быть цифрой
          * */
         if (v.length === 17 && /[0-9]/.test(v[v.length - 1])) {
-
-
           /***
            *  Если телефон заполнен и предыдущее значение не равно текущему
            * */
           if (!this.phoneFilled || this.previousPhone !== v) {
+            this.dropWithOutPhone();
             this.previousPhone = v;
 
             // console.log(`v: ${v}, previousPhone: ${this.previousPhone}`);
@@ -91,6 +91,7 @@
           this.setPhoneFilled(true);
         } else if (v.length < 17) {
 
+          this.dropWithOutPhone();
           this.setPhoneFilled(false);
           this.setSuccess(null);
         }
@@ -129,10 +130,22 @@
            * */
           this.$bvToast.hide();
 
-          if(this.verified) {
+          if (this.verified) {
             this.setSuccess(true);
           } else {
             this.setSuccess(null);
+
+            this.$bvToast.toast(
+              'Вы не зарегистрированы в системе, переключитесь в режим обычной формы',
+              {
+                toaster: 'b-toaster-top-center',
+                title: 'Внимание !!!',
+                variant: 'warning',
+                solid: true,
+                autoHideDelay: 17000
+              });
+
+
           }
 
         } catch (e) {
@@ -145,7 +158,7 @@
              * */
             this.$bvToast.hide();
 
-            this.$emit('showErrorToast');
+            this.$emit('onServerError');
             this.setSuccess(false);
           }
 
@@ -160,8 +173,11 @@
 </script>
 
 <style scoped>
+  /*.was-validated .form-control:valid, .form-control.is-valid {*/
+  /*  background-image: none;*/
+  /*}*/
   .loader {
-    background-image: url("../assets/verifying.svg");
+    background-image: url("../../assets/verifying.svg");
     background-repeat: no-repeat;
     background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
     background-position: right calc(0.375em + 0.1875rem) center;

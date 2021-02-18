@@ -21,8 +21,8 @@
 </template>
 
 <script>
-  import SimpleForm from "./SimpleForm";
-  import ExtendedForm from "./ExtendedForm";
+  import SimpleForm from "./form/SimpleForm";
+  import ExtendedForm from "./form/ExtendedForm";
 
   export default {
     name: "MainContainer",

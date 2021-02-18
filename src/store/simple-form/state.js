@@ -1,4 +1,4 @@
-export default   {
+export default {
   /***
    *  Data to send to the server
    * */

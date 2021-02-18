@@ -25,9 +25,25 @@
       disabled: Boolean,
       companies: Array,
       company: String,
-      validateClasses: Object,
-      controlState: [Boolean, Object],
+      validateClasses: {
+        type: Object,
+        default: () => ({})
+      },
+      controlState: {
+        type: [Boolean, Object],
+        default: null
+      },
       success: [Boolean, Object]
+    },
+    computed: {
+      company_: {
+        get() {
+          return this.company
+        },
+        set(v) {
+          this.$emit('onChangeCompany', v);
+        }
+      }
     }
   }
 </script>
