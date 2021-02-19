@@ -4,13 +4,6 @@
       <PhoneControl
           @onServerError="showErrorToast"
       />
-      <NameControl
-          :disabled="sending"
-          :names="names"
-          :name="name"
-          :control-state="success"
-          @onChangeName="setName"
-      />
       <CompanyControl
           v-if="verified"
           :disabled="sending"
@@ -25,6 +18,13 @@
           </span>
         </template>
       </CompanyControl>
+      <NameControl
+          :disabled="sending"
+          :names="names"
+          :name="name"
+          :control-state="success"
+          @onChangeName="setName"
+      />
       <MessageControl
           :disabled="sending"
           :message="message"
@@ -35,7 +35,7 @@
           :disabled="!formCompleted"
       />
     </b-form>
-    <pre>{{formData}}</pre>
+<!--    <pre>{{formData}}</pre>-->
   </div>
 </template>
 
@@ -77,20 +77,10 @@
       ])
     },
     methods: {
-      showSuccessToast(/*msg*/) {
-        this.makeToast('success', 'Успех!', 'Ваше обращение отправлено...');
-      },
-      showErrorToast(/*msg*/) {
-        this.makeToast('danger', 'Ошибка!', 'Ошибка соединения с сервером... Попробуйте чуть позже');
-      },
-      makeToast(variant, title, message) {
-        this.$bvToast.toast(message, {
-          toaster: 'b-toaster-top-center',
-          title,
-          variant: variant,
-          solid: true,
-          autoHideDelay: 17000
-        });
+      async recaptchaToken() {
+        await this.$recaptchaLoaded();
+
+        return await this.$recaptcha('submit');
       },
       async submit() {
         /***
@@ -128,7 +118,7 @@
 
           this.setSuccess(null);
         } catch (e) {
-          console.log('error: ', e);
+          // console.log('error: ', e);
           /***
            *  Зыакрываем, если были открыты
            * */
@@ -140,6 +130,21 @@
 
           this.setSending(false);
         }
+      },
+      showSuccessToast(/*msg*/) {
+        this.makeToast('success', 'Успех!', 'Ваше обращение отправлено...');
+      },
+      showErrorToast(/*msg*/) {
+        this.makeToast('danger', 'Ошибка!', 'Ошибка соединения с сервером... Попробуйте чуть позже');
+      },
+      makeToast(variant, title, message) {
+        this.$bvToast.toast(message, {
+          toaster: 'b-toaster-top-center',
+          title,
+          variant: variant,
+          solid: true,
+          autoHideDelay: 17000
+        });
       },
       ...mapMutations([
         'setName',

@@ -97,7 +97,7 @@
             :disabled="!formCompleted"
         />
       </transition>
-      <pre>{{formData}}</pre>
+<!--      <pre>{{formData}}</pre>-->
     </b-form>
   </div>
 </template>
@@ -113,6 +113,7 @@
   import CuratorsControl from "./CuratorsControl";
   import MessageControl from "./MessageControl";
   import SubmitButton from "./SubmitButton";
+  // import delay from "../lib/delay";
 
   export default {
     name: "ExtendedForm",
@@ -153,6 +154,11 @@
       ])
     },
     methods: {
+      async recaptchaToken() {
+        await this.$recaptchaLoaded();
+
+        return await this.$recaptcha('submit');
+      },
       async submit() {
         /***
          *  before send
@@ -174,7 +180,8 @@
             name,
             text,
             module,
-            curator
+            curator,
+            // token
           });
 
           /***
@@ -190,7 +197,7 @@
 
           this.setSuccess(null);
         } catch (e) {
-          console.log('error: ', e);
+          // console.log('error: ', e);
           /***
            *  Зыакрываем, если были открыты
            * */
