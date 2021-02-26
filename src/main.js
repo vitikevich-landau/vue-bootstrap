@@ -11,8 +11,8 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 // Vue.use(IconsPlugin)
 
-// import { VueReCaptcha } from 'vue-recaptcha-v3';
-// Vue.use(VueReCaptcha, { siteKey: '6Lc4dfwZAAAAAB2wHs5hmA9SCTxuC6oThkc2-anR' });
+import { VueReCaptcha } from 'vue-recaptcha-v3';
+Vue.use(VueReCaptcha, { siteKey: '6Lc4dfwZAAAAAB2wHs5hmA9SCTxuC6oThkc2-anR' });
 
 Vue.config.productionTip = false
 

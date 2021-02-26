@@ -15,7 +15,7 @@
     <b-input-group>
       <!-- Show if items more > 1 -->
       <template #append v-if="names.length > 1">
-        <b-dropdown ref="dropdown" :variant="dropDownVariant">
+        <b-dropdown ref="dropdown" right :variant="dropDownVariant">
           <b-dropdown-item
               v-for="(item, i) in names"
               :key="`${item}-${i}`"

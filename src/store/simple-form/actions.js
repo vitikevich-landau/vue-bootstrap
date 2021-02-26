@@ -4,7 +4,7 @@ export default {
     {signal, phone}
   ) => {
     const response = await fetch(
-      `http://192.168.1.200:8185/api/verify-phone?phone=${encodeURIComponent(phone)}`,
+      `api/verify-phone?phone=${encodeURIComponent(phone)}`,
       {signal}
     );
     const data = await response.json();

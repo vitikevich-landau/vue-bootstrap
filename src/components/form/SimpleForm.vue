@@ -95,14 +95,14 @@
           const {phone, company, name, message: text} = this.formData;
 
 
-          // const token = await this.recaptchaToken();
+          const token = await this.recaptchaToken();
 
-          await axios.post('http://192.168.1.200:8185/api/send', {
+          await axios.post('api/send', {
             phone,
             company,
             name,
             text,
-            // token
+            token
           });
 
           /***
