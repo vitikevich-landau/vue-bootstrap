@@ -5,7 +5,7 @@
         type="submit"
         variant="primary"
         :disabled="disabled"
-        @click="$emit('onSubmit')"
+        @click="$emit('onSend')"
     >
       Отправить
     </b-button>

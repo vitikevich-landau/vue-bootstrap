@@ -8,7 +8,7 @@
         class="mb-2"
         :variant="formCompleted && success !== false ? 'success' : success === false ? 'danger': ''"
     />
-    <b-form @submit.prevent="submit">
+    <b-form @submit.prevent @onSend="submit">
       <PhoneControl
           @onServerError="showErrorToast"
       />
