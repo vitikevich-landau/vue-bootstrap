@@ -8,7 +8,7 @@
         class="mb-2"
         :variant="formCompleted && success !== false ? 'success' : success === false ? 'danger': ''"
     />
-    <b-form @submit.prevent @onSend="submit">
+    <b-form @submit.prevent>
       <PhoneControl
           @onServerError="showErrorToast"
       />
@@ -92,6 +92,7 @@
       </transition>
       <transition name="fade" mode="out-in">
         <SubmitButton
+            @onSend="submit"
             v-if="name && curator"
             :switch-button="!sending"
             :disabled="!formCompleted"
